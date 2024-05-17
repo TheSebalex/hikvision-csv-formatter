@@ -227,12 +227,14 @@
 
         try{
           XLSX.writeFile(workbook, path.join(__dirname, "../../outputs/" + fileName), { compression: true });
+          alert("Finalizado!");
+          exec(`explorer ${path.join(__dirname, "../../outputs")}`)
         } catch(e){
           XLSX.writeFile(workbook, path.join(__dirname, "./outputs/" + fileName), { compression: true });
+          alert("Finalizado!");
+          exec(`explorer ${path.join(__dirname, "./outputs")}`)
         }
 
-        alert("Finalizado!");
-        exec(`explorer ${path.join(__dirname, "../../outputs")}`)
         
       }
     </script>
