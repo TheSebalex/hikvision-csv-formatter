@@ -125,7 +125,11 @@
           if (inputFile.files && inputFile.files[0]) {
             const file = inputFile.files[0].path;
             const text = fs.readFileSync(file, { encoding: "utf-8" });
-            formatToDataset(document.querySelector("#dateFrom").value, document.querySelector("#dateTo").value, text);
+            try{
+              formatToDataset(document.querySelector("#dateFrom").value, document.querySelector("#dateTo").value, text);
+            } catch (e) {
+              alert(e)
+            }
           } else {
             alert("Debe seleccionar un archivo");
             return;
@@ -211,15 +215,24 @@
 
         const fileName = `${new Date().getTime().toString().slice(5)}-${new Date().toISOString().split("T")[0]}.xlsx`
 
+        if(!fs.existsSync("./outputs")){ 
+          fs.mkdirSync("./outputs")
+        }
+
         const XLSX = require("xlsx");
         let excelFile = XLSX.utils.json_to_sheet(excel)
         const workbook = XLSX.utils.book_new();
+
         XLSX.utils.book_append_sheet(workbook, excelFile, "Asistencia");
 
-        XLSX.writeFile(workbook, path.join(__dirname, "./outputs/" + fileName), { compression: true });
+        try{
+          XLSX.writeFile(workbook, path.join(__dirname, "../../outputs/" + fileName), { compression: true });
+        } catch(e){
+          XLSX.writeFile(workbook, path.join(__dirname, "./outputs/" + fileName), { compression: true });
+        }
 
         alert("Finalizado!");
-        exec(`explorer ${path.join(__dirname, "./outputs")}`)
+        exec(`explorer ${path.join(__dirname, "../../outputs")}`)
         
       }
     </script>

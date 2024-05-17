@@ -15,6 +15,8 @@ const createWindow = () => {
     }
   })
 
+  const fs = require("fs")
+  // fs.mkdirSync(path.join(__dirname, "./outputs"))
   win.setMenu(null)
 
   win.loadFile(path.join(__dirname, 'index.html'))
